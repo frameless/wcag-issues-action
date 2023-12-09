@@ -3,16 +3,20 @@ description: "Include WCAG related GitHub issues in your WCAG-EM report."
 author: "Frameless"
 
 inputs:
-  report:
+  input:
     description: "WCAG-EM JSON file that is the basis for your report."
     required: true
     default: "wcag-em.json"
-  create-artifcat:
+  create-artifact:
     description: "Upload GitHub Artifact with JSON result"
     required: false
     default: false
   create-labels:
     description: "Automatically create 78 labels in GitHub issues, one for every WCAG 2.1 succes criterion"
+    required: false
+    default: false
+  label-color:
+    description: "Hex-color for all WCAG labels that will be created. Use six characters, without the leading `#`."
     required: false
     default: false
   token:
@@ -23,6 +27,9 @@ inputs:
     required: true
   repo:
     description: "GitHub repository"
+    required: true
+  website:
+    description: "URL of the website the WCAG compliance report is about."
     required: true
 
 outputs:
