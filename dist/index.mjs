@@ -46369,16 +46369,18 @@ exports.LRUCache = LRUCache;
 
 __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(2186);
-/* harmony import */ var _lib_mjs__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(9823);
+/* harmony import */ var _lib_mjs__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(4953);
 
 
 
-const input = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("input", { required: true });
+const input = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("input", { required: false });
 const owner = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("owner", { required: true });
 const repo = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("repo", { required: true });
 const labelColor = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("label-color", { required: false });
 const website = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("label-color", { required: true });
 const token = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("token", { required: true });
+const title = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("title", { required: false });
+const description = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("description", { required: false });
 const createLabels =
   (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getBooleanInput)("create-labels", {
     required: false,
@@ -46396,12 +46398,14 @@ if (createLabels) {
   await (0,_lib_mjs__WEBPACK_IMPORTED_MODULE_1__/* .createWcagLabels */ .Gl)({ octokit, owner, repo, color: labelColor });
 }
 
-const auditResults = await (0,_lib_mjs__WEBPACK_IMPORTED_MODULE_1__/* .loadWcagIssues */ .aE)({ octokit, owner, repo, website });
+const auditResult = await (0,_lib_mjs__WEBPACK_IMPORTED_MODULE_1__/* .loadWcagIssues */ .aE)({ octokit, owner, repo, website });
 
 await (0,_lib_mjs__WEBPACK_IMPORTED_MODULE_1__/* .mergeResults */ .rM)({
   inputFile: input,
-  auditResults,
+  auditResult,
   outputFile: "tmp/wcag-em.json",
+  title,
+  description,
 });
 
 if (createArtifact) {
@@ -46413,7 +46417,7 @@ __webpack_async_result__();
 
 /***/ }),
 
-/***/ 9823:
+/***/ 4953:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 
@@ -46830,7 +46834,120 @@ const successCriteria = [
 var lodash_clonedeep = __nccwpck_require__(2061);
 // EXTERNAL MODULE: ./node_modules/@octokit/plugin-paginate-rest/dist-node/index.js
 var plugin_paginate_rest_dist_node = __nccwpck_require__(4193);
+;// CONCATENATED MODULE: ./src/earl-json-ld.mjs
+const createJSON = ({ title, description }) => ({
+  "@context": {
+    reporter: "http://github.com/w3c/wai-wcag-em-report-tool/",
+    wcagem: "http://www.w3.org/TR/WCAG-EM/#",
+    Evaluation: "wcagem:procedure",
+    defineScope: "wcagem:step1",
+    scope: "wcagem:step1a",
+    step1b: { "@id": "wcagem:step1b", "@type": "@id" },
+    conformanceTarget: "step1b",
+    accessibilitySupportBaseline: "wcagem:step1c",
+    additionalEvaluationRequirements: "wcagem:step1d",
+    exploreTarget: "wcagem:step2",
+    essentialFunctionality: "wcagem:step2b",
+    pageTypeVariety: "wcagem:step2c",
+    technologiesReliedUpon: "wcagem:step2d",
+    selectSample: "wcagem:step3",
+    structuredSample: "wcagem:step3a",
+    randomSample: "wcagem:step3b",
+    Website: "wcagem:website",
+    Webpage: "wcagem:webpage",
+    auditSample: "wcagem:step4",
+    reportFindings: "wcagem:step5",
+    documentSteps: "wcagem:step5a",
+    commissioner: "wcagem:commissioner",
+    evaluator: "wcagem:evaluator",
+    evaluationSpecifics: "wcagem:step5b",
+    WCAG: "http://www.w3.org/TR/WCAG/#",
+    WCAG20: "http://www.w3.org/TR/WCAG20/#",
+    WCAG21: "http://www.w3.org/TR/WCAG21/#",
+    WAI: "http://www.w3.org/WAI/",
+    A: "WAI:WCAG2A-Conformance",
+    AA: "WAI:WCAG2AA-Conformance",
+    AAA: "WAI:WCAG2AAA-Conformance",
+    wcagVersion: "WAI:standards-guidelines/wcag/#versions",
+    reportToolVersion: "wcagem:reportToolVersion",
+    earl: "http://www.w3.org/ns/earl#",
+    Assertion: "earl:Assertion",
+    TestMode: "earl:TestMode",
+    TestCriterion: "earl:TestCriterion",
+    TestCase: "earl:TestCase",
+    TestRequirement: "earl:TestRequirement",
+    TestSubject: "earl:TestSubject",
+    TestResult: "earl:TestResult",
+    OutcomeValue: "earl:OutcomeValue",
+    Pass: "earl:Pass",
+    Fail: "earl:Fail",
+    CannotTell: "earl:CannotTell",
+    NotApplicable: "earl:NotApplicable",
+    NotTested: "earl:NotTested",
+    assertedBy: "earl:assertedBy",
+    mode: "earl:mode",
+    result: "earl:result",
+    subject: "earl:subject",
+    test: "earl:test",
+    outcome: "earl:outcome",
+    dcterms: "http://purl.org/dc/terms/",
+    title: "dcterms:title",
+    description: "dcterms:description",
+    summary: "dcterms:summary",
+    date: "dcterms:date",
+    hasPart: "dcterms:hasPart",
+    isPartOf: "dcterms:isPartOf",
+    id: "@id",
+    type: "@type",
+    language: "@language",
+  },
+  language: "en",
+  type: "Evaluation",
+  reportToolVersion: "3.0.3",
+  defineScope: {
+    id: "_:defineScope",
+    scope: {
+      description,
+      title,
+    },
+    conformanceTarget: "AA",
+    accessibilitySupportBaseline: "",
+    additionalEvaluationRequirements: "",
+    wcagVersion: "2.1",
+  },
+  exploreTarget: {
+    id: "_:exploreTarget",
+    essentialFunctionality: "",
+    pageTypeVariety: "",
+    technologiesReliedUpon: ["HTML", "CSS", "WAI-ARIA", "JavaScript", "SVG"],
+  },
+  selectSample: {
+    id: "_:selectSample",
+    structuredSample: [],
+    randomSample: [],
+  },
+  auditSample: [],
+  reportFindings: {
+    date: {
+      type: "http://www.w3.org/TR/NOTE-datetime",
+      "@value": "Sat Dec 09 2023",
+    },
+    summary: "",
+    title: "",
+    commissioner: "",
+    evaluator: "",
+    documentSteps: [
+      { id: "_:about" },
+      { id: "_:defineScope" },
+      { id: "_:exploreTarget" },
+      { id: "_:selectSample" },
+    ],
+    evaluationSpecifics: "",
+  },
+});
+
 ;// CONCATENATED MODULE: ./src/lib.mjs
+
 
 
 
@@ -46883,7 +47000,7 @@ const createWcagLabels = async ({ octokit, owner, repo, color }) => {
 
   const createResult = await Promise.all(
     newLabels.map(({ name, description }) =>
-      octokit.rest.issues.createLabel({
+      octokit.paginate(octokit.rest.issues.createLabel, {
         owner,
         repo,
         name,
@@ -46954,8 +47071,16 @@ const loadWcagIssues = async ({ octokit, owner, repo, website }) => {
   return auditResult;
 };
 
-const mergeResults = async ({ inputFile, auditResult, outputFile }) => {
-  const inputJSON = JSON.parse(await (0,promises_namespaceObject.readFile)(inputFile));
+const mergeResults = async ({
+  inputFile,
+  auditResult,
+  outputFile,
+  title,
+  description,
+}) => {
+  const inputJSON = inputFile
+    ? JSON.parse(await (0,promises_namespaceObject.readFile)(inputFile))
+    : createJSON({ title, description });
   const out = lodash_clonedeep(inputJSON);
   out.auditSample = [...inputJSON.auditSample, ...auditResult];
 

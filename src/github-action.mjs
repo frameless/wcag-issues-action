@@ -32,11 +32,11 @@ if (createLabels) {
   await createWcagLabels({ octokit, owner, repo, color: labelColor });
 }
 
-const auditResults = await loadWcagIssues({ octokit, owner, repo, website });
+const auditResult = await loadWcagIssues({ octokit, owner, repo, website });
 
 await mergeResults({
   inputFile: input,
-  auditResults,
+  auditResult,
   outputFile: "tmp/wcag-em.json",
   title,
   description,
