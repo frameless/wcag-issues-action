@@ -46373,12 +46373,11 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 
 
 
-const input = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("input", { required: true }) || "../wcag-em.json";
-const owner = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("owner", { required: true }) || "nl-design-system";
-const repo = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("repo", { required: true }) || "documentatie";
-const labelColor = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("label-color", { required: false }) || "D93F0B";
-const website =
-  (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("label-color", { required: false }) || "https://nldesignsystem.nl";
+const input = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("input", { required: true });
+const owner = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("owner", { required: true });
+const repo = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("repo", { required: true });
+const labelColor = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("label-color", { required: false });
+const website = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("label-color", { required: true });
 const token = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("token", { required: true });
 const createLabels =
   (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getBooleanInput)("create-labels", {
@@ -46829,12 +46828,17 @@ const successCriteria = [
 
 // EXTERNAL MODULE: ./node_modules/lodash.clonedeep/index.js
 var lodash_clonedeep = __nccwpck_require__(2061);
+// EXTERNAL MODULE: ./node_modules/@octokit/plugin-paginate-rest/dist-node/index.js
+var plugin_paginate_rest_dist_node = __nccwpck_require__(4193);
 ;// CONCATENATED MODULE: ./src/lib.mjs
 
 
 
 
 
+
+
+dist_node.Octokit.plugin(plugin_paginate_rest_dist_node.paginateRest);
 
 const login = async ({ token }) => {
   // Create a personal access token at https://github.com/settings/tokens/new?scopes=repo
@@ -46856,14 +46860,15 @@ const createWcagLabels = async ({ octokit, owner, repo, color }) => {
     description: title,
   }));
 
-  const labels = await octokit.rest.issues.listLabelsForRepo({
+  const labels = await octokit.paginate(octokit.rest.issues.listLabelsForRepo, {
     owner,
     repo,
   });
 
+  const existingLabels = labels;
+
   const newLabels = wcagLabels.filter(
-    (label) =>
-      !labels.data.find((existingLabel) => existingLabel.name === label.name),
+    (wcagLabel) => !existingLabels.some(({ name }) => name === wcagLabel.name),
   );
 
   if (newLabels.length > 0) {
@@ -46887,7 +46892,6 @@ const createWcagLabels = async ({ octokit, owner, repo, color }) => {
       }),
     ),
   );
-  console.log(createResult);
 };
 
 const loadWcagIssues = async ({ octokit, owner, repo, website }) => {
@@ -46896,8 +46900,6 @@ const loadWcagIssues = async ({ octokit, owner, repo, website }) => {
     repo,
     filter: "all",
   });
-
-  await (0,promises_namespaceObject.writeFile)("./tmp/issues.json", JSON.stringify(issues, null, 2));
 
   const isWcagLabel = (str) => /^wcag\//i.test(str);
 
@@ -46916,7 +46918,7 @@ const loadWcagIssues = async ({ octokit, owner, repo, website }) => {
     _map[`wcag/${item.sc}`] = item;
     return _map;
   }, {});
-  console.log(labelToSC);
+
   // https://www.w3.org/TR/act-rules-format/
   const vocab = {
     WCAG20: "https://www.w3.org/TR/WCAG20/#",

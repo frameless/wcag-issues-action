@@ -3,6 +3,9 @@ import { readFile, writeFile } from "node:fs/promises";
 import { basename } from "node:path";
 import { successCriteria } from "./wcag21.mjs";
 import cloneDeep from "lodash.clonedeep";
+import { paginateRest } from "@octokit/plugin-paginate-rest";
+
+Octokit.plugin(paginateRest);
 
 export const login = async ({ token }) => {
   // Create a personal access token at https://github.com/settings/tokens/new?scopes=repo
@@ -24,14 +27,15 @@ export const createWcagLabels = async ({ octokit, owner, repo, color }) => {
     description: title,
   }));
 
-  const labels = await octokit.rest.issues.listLabelsForRepo({
+  const labels = await octokit.paginate(octokit.rest.issues.listLabelsForRepo, {
     owner,
     repo,
   });
 
+  const existingLabels = labels;
+
   const newLabels = wcagLabels.filter(
-    (label) =>
-      !labels.data.find((existingLabel) => existingLabel.name === label.name),
+    (wcagLabel) => !existingLabels.some(({ name }) => name === wcagLabel.name),
   );
 
   if (newLabels.length > 0) {
@@ -55,7 +59,6 @@ export const createWcagLabels = async ({ octokit, owner, repo, color }) => {
       }),
     ),
   );
-  console.log(createResult);
 };
 
 export const loadWcagIssues = async ({ octokit, owner, repo, website }) => {
@@ -82,7 +85,7 @@ export const loadWcagIssues = async ({ octokit, owner, repo, website }) => {
     _map[`wcag/${item.sc}`] = item;
     return _map;
   }, {});
-  console.log(labelToSC);
+
   // https://www.w3.org/TR/act-rules-format/
   const vocab = {
     WCAG20: "https://www.w3.org/TR/WCAG20/#",
