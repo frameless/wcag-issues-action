@@ -17,7 +17,7 @@ const labelColor = "D93F0B";
 const website = "https://github.com/frameless/wcag-issues-action";
 const token = process.env.GITHUB_TOKEN;
 const createNewLabels = true;
-const createArtifact = false;
+const createArtifact = true;
 const description = "This is just an example.";
 const title = "GitHub Action for WCAG reports in GitHub Issues";
 
@@ -32,5 +32,6 @@ const auditResult = await loadWcagIssues({ owner, repo, octokit, website });
 await mergeResults({ inputFile, outputFile, auditResult, title, description });
 
 if (createArtifact) {
-  await uploadArtifact({ outputFile });
+  const artifactResult = await uploadArtifact({ outputFile });
+  console.log(artifactResult);
 }

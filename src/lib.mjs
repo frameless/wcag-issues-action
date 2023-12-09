@@ -1,10 +1,11 @@
 import { Octokit } from "octokit";
 import { readFile, writeFile } from "node:fs/promises";
-import { basename } from "node:path";
+import { basename, dirname } from "node:path";
 import { successCriteria } from "./wcag21.mjs";
 import cloneDeep from "lodash.clonedeep";
 import { paginateRest } from "@octokit/plugin-paginate-rest";
 import { createJSON } from "./earl-json-ld.mjs";
+import artifact from "@actions/artifact";
 
 Octokit.plugin(paginateRest);
 
@@ -142,10 +143,13 @@ export const mergeResults = async ({
 
 export const uploadArtifact = async ({ outputFile }) => {
   const filename = basename(outputFile);
-  await artifact.uploadArtifact(
-    // name of the artifact
+  const rootDirectory = dirname(outputFile);
+  const artifactClient = artifact.create();
+  const uploadResult = await artifactClient.uploadArtifact(
     filename,
-    // files to include (supports absolute and relative paths)
     [outputFile],
+    rootDirectory,
+    { continueOnError: false },
   );
+  console.log(`Artifact ${uploadResult.artifactName} has been created.`);
 };
