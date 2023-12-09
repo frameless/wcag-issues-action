@@ -6,8 +6,8 @@ import {
   uploadArtifact,
 } from "./lib.mjs";
 
-const inputFile = "./wcag-em.json";
-const outputFile = "tmp/wcag-em.json";
+const inputFile = "./wcag-evaluation.json";
+const outputFile = "tmp/wcag-evaluation.json";
 const owner = "nl-design-system";
 const repo = "documentatie";
 const labelColor = "D93F0B";

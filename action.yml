@@ -6,7 +6,7 @@ inputs:
   input:
     description: "WCAG-EM JSON file that is the basis for your report."
     required: true
-    default: "wcag-em.json"
+    default: "wcag-evaluation.json"
   create-artifact:
     description: "Upload GitHub Artifact with JSON result"
     required: false

@@ -65,8 +65,6 @@ export const loadWcagIssues = async ({ octokit, owner, repo, website }) => {
     filter: "all",
   });
 
-  await writeFile("./tmp/issues.json", JSON.stringify(issues, null, 2));
-
   const isWcagLabel = (str) => /^wcag\//i.test(str);
 
   const wcagIssues = issues.data.filter(

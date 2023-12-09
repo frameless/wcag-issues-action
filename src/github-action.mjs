@@ -7,12 +7,11 @@ import {
   uploadArtifact,
 } from "./lib.mjs";
 
-const input = getInput("input", { required: true }) || "../wcag-em.json";
-const owner = getInput("owner", { required: true }) || "nl-design-system";
-const repo = getInput("repo", { required: true }) || "documentatie";
-const labelColor = getInput("label-color", { required: false }) || "D93F0B";
-const website =
-  getInput("label-color", { required: false }) || "https://nldesignsystem.nl";
+const input = getInput("input", { required: true });
+const owner = getInput("owner", { required: true });
+const repo = getInput("repo", { required: true });
+const labelColor = getInput("label-color", { required: false });
+const website = getInput("label-color", { required: true });
 const token = getInput("token", { required: true });
 const createLabels =
   getBooleanInput("create-labels", {
