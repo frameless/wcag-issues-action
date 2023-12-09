@@ -19,7 +19,7 @@ export const login = async ({ token }) => {
 };
 
 export const createWcagLabels = async ({ octokit, owner, repo, color }) => {
-  const wcagLabels = successCriteria.map((sc, title) => ({
+  const wcagLabels = successCriteria.map(({ sc, title }) => ({
     name: `wcag/${sc}`,
     description: title,
   }));
