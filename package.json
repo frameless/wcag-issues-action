@@ -4,8 +4,14 @@
   "description": "Publish WCAG violation related GitHub Issues as JSON for WCAG-EM'",
   "main": "src/index.mjs",
   "scripts": {
+    "build": "ncc build src/github-action.mjs --out dist/",
+    "clean": "rm -rf dist/",
+    "prebuild": "npm run clean",
     "start": "node src/index.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "author": "",
   "license": "EUPL-1.2",
@@ -16,6 +22,7 @@
     "octokit": "3.1.2"
   },
   "devDependencies": {
+    "@vercel/ncc": "0.38.1",
     "prettier": "3.1.0"
   }
 }

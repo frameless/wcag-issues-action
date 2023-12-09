@@ -38,4 +38,4 @@ outputs:
 
 runs:
   using: node20
-  main: src/github-action.mjs
+  main: dist/index.mjs
