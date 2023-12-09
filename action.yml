@@ -5,7 +5,7 @@ author: "Frameless"
 inputs:
   input:
     description: "WCAG-EM JSON file that is the basis for your report."
-    required: true
+    required: false
     default: "wcag-evaluation.json"
   create-artifact:
     description: "Upload GitHub Artifact with JSON result"
@@ -31,6 +31,12 @@ inputs:
   website:
     description: "URL of the website the WCAG compliance report is about."
     required: true
+  description:
+    description: "Describe the scope of the evaluation."
+    required: false
+  title:
+    description: "Title of the evaluation report."
+    required: false
 
 outputs:
   json:

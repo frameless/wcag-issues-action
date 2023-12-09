@@ -24,7 +24,9 @@ jobs:
           repo: wcag-issues-action
           input: wcag-em.json
           create-labels: true
-          create-artifact: false
+          create-artifact: true
+          description: "This is just an example."
+          title: "GitHub Action for WCAG reports in GitHub Issues"
           token: ${{ secrets.GH_ISSUES_TOKEN }}
 
       - name: Print Output

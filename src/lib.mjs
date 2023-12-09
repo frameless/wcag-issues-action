@@ -4,6 +4,7 @@ import { basename } from "node:path";
 import { successCriteria } from "./wcag21.mjs";
 import cloneDeep from "lodash.clonedeep";
 import { paginateRest } from "@octokit/plugin-paginate-rest";
+import { createJSON } from "./earl-json-ld.mjs";
 
 Octokit.plugin(paginateRest);
 
@@ -50,7 +51,7 @@ export const createWcagLabels = async ({ octokit, owner, repo, color }) => {
 
   const createResult = await Promise.all(
     newLabels.map(({ name, description }) =>
-      octokit.rest.issues.createLabel({
+      octokit.paginate(octokit.rest.issues.createLabel, {
         owner,
         repo,
         name,
@@ -121,8 +122,16 @@ export const loadWcagIssues = async ({ octokit, owner, repo, website }) => {
   return auditResult;
 };
 
-export const mergeResults = async ({ inputFile, auditResult, outputFile }) => {
-  const inputJSON = JSON.parse(await readFile(inputFile));
+export const mergeResults = async ({
+  inputFile,
+  auditResult,
+  outputFile,
+  title,
+  description,
+}) => {
+  const inputJSON = inputFile
+    ? JSON.parse(await readFile(inputFile))
+    : createJSON({ title, description });
   const out = cloneDeep(inputJSON);
   out.auditSample = [...inputJSON.auditSample, ...auditResult];
 
