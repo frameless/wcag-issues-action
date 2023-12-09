@@ -18,7 +18,7 @@ inputs:
   label-color:
     description: "Hex-color for all WCAG labels that will be created. Use six characters, without the leading `#`."
     required: false
-    default: false
+    default: "D93F0B"
   token:
     description: "GitHub access token"
     required: true

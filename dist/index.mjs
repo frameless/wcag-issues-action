@@ -46373,9 +46373,9 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 
 
 
-const input = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("input", { required: isAction }) || "../wcag-em.json";
-const owner = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("owner", { required: isAction }) || "nl-design-system";
-const repo = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("repo", { required: isAction }) || "documentatie";
+const input = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("input", { required: true }) || "../wcag-em.json";
+const owner = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("owner", { required: true }) || "nl-design-system";
+const repo = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("repo", { required: true }) || "documentatie";
 const labelColor = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("label-color", { required: false }) || "D93F0B";
 const website =
   (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("label-color", { required: false }) || "https://nldesignsystem.nl";
