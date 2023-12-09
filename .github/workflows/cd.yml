@@ -22,7 +22,7 @@ jobs:
           label-color: D93F0B
           owner: frameless
           repo: wcag-issues-action
-          input: wcag-em.json
+          input: wcag-evaluation.json
           create-labels: true
           create-artifact: true
           description: "This is just an example."
