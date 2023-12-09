@@ -43205,6 +43205,20 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:events"
 
 /***/ }),
 
+/***/ 612:
+/***/ ((module) => {
+
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:os");
+
+/***/ }),
+
+/***/ 9411:
+/***/ ((module) => {
+
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:path");
+
+/***/ }),
+
 /***/ 4492:
 /***/ ((module) => {
 
@@ -46369,7 +46383,11 @@ exports.LRUCache = LRUCache;
 
 __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(2186);
-/* harmony import */ var _lib_mjs__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(4953);
+/* harmony import */ var _lib_mjs__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(1067);
+/* harmony import */ var node_path__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(9411);
+/* harmony import */ var node_os__WEBPACK_IMPORTED_MODULE_3__ = __nccwpck_require__(612);
+
+
 
 
 
@@ -46392,6 +46410,8 @@ const createArtifact =
     default: false,
   }) || false;
 
+const outputFile = (0,node_path__WEBPACK_IMPORTED_MODULE_2__.join)((0,node_os__WEBPACK_IMPORTED_MODULE_3__.tmpdir)(), "wcag-evaluation.json");
+
 const octokit = await (0,_lib_mjs__WEBPACK_IMPORTED_MODULE_1__/* .login */ .x4)({ token });
 
 if (createLabels) {
@@ -46403,7 +46423,7 @@ const auditResult = await (0,_lib_mjs__WEBPACK_IMPORTED_MODULE_1__/* .loadWcagIs
 await (0,_lib_mjs__WEBPACK_IMPORTED_MODULE_1__/* .mergeResults */ .rM)({
   inputFile: input,
   auditResult,
-  outputFile: "tmp/wcag-em.json",
+  outputFile,
   title,
   description,
 });
@@ -46417,7 +46437,7 @@ __webpack_async_result__();
 
 /***/ }),
 
-/***/ 4953:
+/***/ 1067:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 
@@ -46434,8 +46454,8 @@ __nccwpck_require__.d(__webpack_exports__, {
 var dist_node = __nccwpck_require__(7467);
 ;// CONCATENATED MODULE: external "node:fs/promises"
 const promises_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:fs/promises");
-;// CONCATENATED MODULE: external "node:path"
-const external_node_path_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:path");
+// EXTERNAL MODULE: external "node:path"
+var external_node_path_ = __nccwpck_require__(9411);
 ;// CONCATENATED MODULE: ./src/wcag21.mjs
 const successCriteria = [
   {
@@ -47090,7 +47110,7 @@ const mergeResults = async ({
 };
 
 const uploadArtifact = async ({ outputFile }) => {
-  const filename = (0,external_node_path_namespaceObject.basename)(outputFile);
+  const filename = (0,external_node_path_.basename)(outputFile);
   await artifact.uploadArtifact(
     // name of the artifact
     filename,

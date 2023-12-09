@@ -5,10 +5,12 @@ import {
   createWcagLabels,
   uploadArtifact,
 } from "./lib.mjs";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
 
 const inputFile = null;
 // const inputFile = "./wcag-evaluation.json";
-const outputFile = "tmp/wcag-evaluation.json";
+const outputFile = join(tmpdir(), "wcag-evaluation.json");
 const owner = "frameless";
 const repo = "wcag-issues-action";
 const labelColor = "D93F0B";

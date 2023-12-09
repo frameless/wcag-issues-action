@@ -6,6 +6,8 @@ import {
   createWcagLabels,
   uploadArtifact,
 } from "./lib.mjs";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
 
 const input = getInput("input", { required: false });
 const owner = getInput("owner", { required: true });
@@ -26,6 +28,8 @@ const createArtifact =
     default: false,
   }) || false;
 
+const outputFile = join(tmpdir(), "wcag-evaluation.json");
+
 const octokit = await login({ token });
 
 if (createLabels) {
@@ -37,7 +41,7 @@ const auditResult = await loadWcagIssues({ octokit, owner, repo, website });
 await mergeResults({
   inputFile: input,
   auditResult,
-  outputFile: "tmp/wcag-em.json",
+  outputFile,
   title,
   description,
 });
