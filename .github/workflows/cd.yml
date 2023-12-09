@@ -1,12 +1,12 @@
 name: Continuous Deployment
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
 
 jobs:
-    test:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,20 +27,18 @@ jobs:
           create-artifact: false
           token: ${{ secrets.GH_ISSUES_TOKEN }}
 
-
       - name: Print Output
         id: output
-        run: echo "WCAG issues: ${{ steps.test-action.outputs.count }}"
+        run: echo "${{ steps.test-action.outputs.count }}"
 
-    publish:
-        runs-on: ubuntu-latest
-        if: github.ref == 'refs/heads/main'
+  publish:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
 
-        steps:
-            - uses: marvinpinto/action-automatic-releases@latest
-              with:
-                  repo_token: '${{ secrets.GITHUB_TOKEN }}'
-                  automatic_release_tag: 'latest'
-                  prerelease: true
-                  title: 'Development Build'
-
+    steps:
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
