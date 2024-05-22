@@ -12,7 +12,7 @@ const inputFile = null;
 // const inputFile = "./wcag-evaluation.json";
 const outputFile = join(tmpdir(), "wcag-evaluation.json");
 const owner = "frameless";
-const repo = "wcag-issues-action";
+const repo = "strapi";
 const labelColor = "D93F0B";
 const website = "https://github.com/frameless/wcag-issues-action";
 const token = process.env.GITHUB_TOKEN;
@@ -24,7 +24,7 @@ const title = "GitHub Action for WCAG reports in GitHub Issues";
 const octokit = await login({ token });
 
 if (createNewLabels) {
-  createWcagLabels({ octokit, owner, repo, color: labelColor });
+  await createWcagLabels({ octokit, owner, repo, color: labelColor });
 }
 
 const auditResult = await loadWcagIssues({ owner, repo, octokit, website });

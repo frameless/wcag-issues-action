@@ -50,9 +50,9 @@ export const createWcagLabels = async ({ octokit, owner, repo, color }) => {
     );
   }
 
-  const createResult = await Promise.all(
+  await Promise.all(
     newLabels.map(({ name, description }) =>
-      octokit.paginate(octokit.rest.issues.createLabel, {
+      octokit.rest.issues.createLabel({
         owner,
         repo,
         name,
