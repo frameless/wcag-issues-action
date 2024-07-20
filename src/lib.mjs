@@ -1,7 +1,7 @@
 import { Octokit } from "octokit";
 import { readFile, writeFile } from "node:fs/promises";
 import { basename, dirname } from "node:path";
-import { successCriteria } from "./wcag21.mjs";
+import { successCriteria } from "./wcag22.mjs";
 import cloneDeep from "lodash.clonedeep";
 import { paginateRest } from "@octokit/plugin-paginate-rest";
 import { createJSON } from "./earl-json-ld.mjs";
