@@ -505,6 +505,11 @@ export const extraComponents = [
     description: "",
     id: "cookie-consent-form",
   },
+  {
+    name: "Document",
+    description: "",
+    id: "document",
+  },
 ];
 
 export const components = [...nldsComponents, ...extraComponents];

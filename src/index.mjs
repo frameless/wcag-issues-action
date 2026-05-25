@@ -35,11 +35,10 @@ if (createComponentLabels) {
     octokit,
     owner,
     repo,
-    color: labelColor,
+    defaultColor: '3504F3',
     labels: components.map(({ id, description }) => ({
       name: `component/${id}`,
       description,
-      color: "3504F3",
     })),
     log,
   });
